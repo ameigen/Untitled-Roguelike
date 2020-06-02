@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Untitled Roguelike"
+config/description="Mobile based procedurally generated tile-based roguelike."
 
 [rendering]
 
