@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Untittled Roguelike"
+config/name="Untitled Roguelike"
 config/icon="res://icon.png"
 
 [rendering]
