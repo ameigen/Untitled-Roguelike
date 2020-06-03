@@ -17,6 +17,7 @@ _global_script_class_icons={
 
 config/name="Untitled Roguelike"
 config/description="Mobile based procedurally generated tile-based roguelike."
+config/icon="res://External/icon.png"
 
 [rendering]
 
