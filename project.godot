@@ -17,7 +17,7 @@ _global_script_class_icons={
 
 config/name="Untitled Roguelike"
 config/description="Mobile based procedurally generated tile-based roguelike."
-run/main_scene="res://Game.tscn"
+run/main_scene="res://Scenes/Game.tscn"
 config/icon="res://External/icon.png"
 
 [rendering]
