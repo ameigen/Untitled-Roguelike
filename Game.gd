@@ -3,7 +3,7 @@ signal processTurn
 signal updateDebug
 
 func _ready():
-	pass # Replace with function body.
+	$TileMap._level_generation(30,30)
 
 #Takes in a position(Vec2) and checks if it is a valid tile to move to
 func _tile_Check(position):
