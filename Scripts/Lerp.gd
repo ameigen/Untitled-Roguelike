@@ -1,11 +1,13 @@
 extends Node
 
 onready var startTime
-#sets delay before lerp function jumps object to location (milliseconds)
+#	Sets delay before lerp function jumps object to location (milliseconds)
 export var lerpDelay = 100
+#	Sets lerp acceleration
+export var lerpStep = 0.25
+var t = 0
 var endLocation
 var target
-var t = 0
 
 signal lerpFinished
 
@@ -37,5 +39,5 @@ func _process(delta):
 			target.position = endLocation
 			t = 0
 		else:	
-			t += delta *1
+			t += delta * lerpStep
 			target.position = target.position.linear_interpolate(endLocation,t)
