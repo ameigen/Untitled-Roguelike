@@ -6,7 +6,7 @@ signal tileMapID
 var levelWidth = 10
 var levelHeight = 10
 var rng = RandomNumberGenerator.new()
-export var maxRooms = 100;
+var maxRooms = 100;
 var rooms = []
 var spawnPoint
 var dims
@@ -20,16 +20,18 @@ func _ready():
 	rng.randomize()
 
 #Basic call to generate a  single x*y room. Use for basis of procedural algorithm
-func level_generation(width, height):
+func level_generation(dimensions,roomC):
+	maxRooms = rng.randi_range(roomC/5,roomC)
+	print(maxRooms)
 	rooms.clear()
 	startTime = OS.get_ticks_msec()
 	var roomCount = maxRooms
-	for x in width:
-		for y in height:
+	for x in dimensions.x:
+		for y in dimensions.y:
 			self.set_cell(x,y,2)
 	while(roomCount > 0):
-		spawnPoint = Vector2(rng.randi_range(3,width-3),rng.randi_range(3,height-3))
-		dims = rng.randi_range(5,20)
+		spawnPoint = Vector2(rng.randi_range(3,dimensions.x-3),rng.randi_range(3,dimensions.y-3))
+		dims = rng.randi_range(5,rng.randi_range(5,30))
 		size = Vector2(dims,dims)
 		tempX = spawnPoint-size
 		tempY = spawnPoint+size
@@ -42,8 +44,6 @@ func level_generation(width, height):
 			rooms.push_back(tempRoom)
 			roomCount -= 1
 	emit_signal("tilemapDebug",str(OS.get_ticks_msec() - startTime))
-	for i in rooms:
-		self.set_cellv(i.roomCent,-1)
 	return rooms[rng.randi_range(0,maxRooms - 1)].roomCent
 	
 func intersectCheck(startPoint,endPoint):

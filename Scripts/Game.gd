@@ -2,13 +2,17 @@ extends Node2D
 signal processTurn
 var playerTurn = true;
 onready var Lerp = $Lerp
+#temp vals for map gen
+export var mapSize = Vector2(100,100)
+var maxRooms = (mapSize.x+mapSize.y)/2
+
 func _ready():
 	set_process_input(true)
-	$Player.position = ($TileMap.map_to_world($TileMap.level_generation(200,200)))
+	$Player.position = ($TileMap.map_to_world($TileMap.level_generation(mapSize,maxRooms)))
 
 func _input(event):
 	if Input.is_action_pressed("ui_accept"):
-		$Player.position = ($TileMap.map_to_world($TileMap.level_generation(200,200)))
+		$Player.position = ($TileMap.map_to_world($TileMap.level_generation(mapSize,maxRooms)))
 	if Input.is_action_pressed("debug_camera_left"):
 		$debugCam.position.x -= 50
 	if Input.is_action_pressed("debug_camera_right"):

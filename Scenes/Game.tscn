@@ -77,6 +77,7 @@ extents = Vector2( 0, 10 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
+mapSize = Vector2( 200, 200 )
 
 [node name="Debug" type="Node" parent="."]
 script = ExtResource( 9 )
@@ -110,7 +111,6 @@ tile_set = SubResource( 2 )
 cell_size = Vector2( 32, 32 )
 format = 1
 script = ExtResource( 7 )
-maxRooms = 40
 
 [node name="Player" type="Area2D" parent="."]
 position = Vector2( 192, 128 )
