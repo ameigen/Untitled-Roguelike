@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Art/knight.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Art/temp_tile_sheet.png" type="Texture" id=2]
@@ -8,8 +8,13 @@
 [ext_resource path="res://Scripts/CanvasLayer.gd" type="Script" id=6]
 [ext_resource path="res://Scripts/TileMap.gd" type="Script" id=7]
 [ext_resource path="res://Scripts/Lerp.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/Debug.gd" type="Script" id=9]
+[ext_resource path="res://Scenes/DebugOut.gd" type="Script" id=10]
 
-[sub_resource type="TileSet" id=1]
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="TileSet" id=2]
 0/name = "temp_tile_sheet.png 0"
 0/texture = ExtResource( 2 )
 0/tex_offset = Vector2( 0, 0 )
@@ -67,45 +72,45 @@
 3/shapes = [  ]
 3/z_index = 0
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 0, 10 )
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 4 )
 
+[node name="Debug" type="Node" parent="."]
+script = ExtResource( 9 )
+
+[node name="debugCam" type="Camera2D" parent="."]
+zoom = Vector2( 15, 15 )
+
 [node name="Lerp" type="Node" parent="."]
 script = ExtResource( 8 )
 lerpDelay = 400
-lerpStep = 0.01
+lerpStep = 0.125
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 script = ExtResource( 6 )
 
-[node name="PlayerXY" type="Label" parent="CanvasLayer"]
-margin_left = 2.24809
-margin_top = 5.04387
-margin_right = 254.248
-margin_bottom = 21.0439
+[node name="DebugOut" type="Label" parent="CanvasLayer"]
+margin_left = 11.0
+margin_top = 6.0
+margin_right = 41.0
+margin_bottom = 22.0
+custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlayerTile" type="Label" parent="CanvasLayer"]
-margin_left = 463.73
-margin_top = 3.66341
-margin_right = 703.73
-margin_bottom = 19.6634
-custom_fonts/font = ExtResource( 5 )
+align = 1
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = SubResource( 1 )
+tile_set = SubResource( 2 )
 cell_size = Vector2( 32, 32 )
 format = 1
 script = ExtResource( 7 )
+maxRooms = 40
 
 [node name="Player" type="Area2D" parent="."]
 position = Vector2( 192, 128 )
@@ -116,7 +121,7 @@ texture = ExtResource( 1 )
 centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="PlayerCamera" type="Camera2D" parent="Player"]
 current = true
@@ -124,6 +129,10 @@ drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
-[connection signal="updateDebug" from="." to="CanvasLayer" method="_on_Game_updateDebug"]
+[connection signal="debugOut" from="Debug" to="CanvasLayer/DebugOut" method="_on_Debug_debugOut"]
+[connection signal="getID" from="Debug" to="TileMap" method="_on_Debug_getID"]
 [connection signal="lerpFinished" from="Lerp" to="." method="_on_Lerp_lerpFinished"]
+[connection signal="tileMapID" from="TileMap" to="Debug" method="_on_TileMap_tileMapID"]
+[connection signal="tilemapDebug" from="TileMap" to="Debug" method="_on_TileMap_tilemapDebug"]
+[connection signal="playerMove" from="Player" to="Debug" method="_on_Player_playerMove"]
 [connection signal="playerMove" from="Player" to="." method="_on_Player_playerMove"]

@@ -10,14 +10,10 @@ func _ready():
 #	If input event, send direction and position as signal
 func _input(event):
 	if Input.is_action_pressed("ui_left"): 
-		print(event)
 		emit_signal("playerMove",DIRECTIONS.LEFT,self.position)
 	if Input.is_action_pressed("ui_right"):
-		print(event)
 		emit_signal("playerMove",DIRECTIONS.RIGHT,self.position)
 	if Input.is_action_pressed("ui_up"):
-		print(event)
 		emit_signal("playerMove",DIRECTIONS.UP,self.position)
 	if Input.is_action_pressed("ui_down"):
-		print(event)
 		emit_signal("playerMove",DIRECTIONS.DOWN,self.position)

@@ -31,7 +31,6 @@ func lerpToSpot(moveVec, object):
 func _process(delta):
 	if(target.position == endLocation):
 		t = 0
-		print("lerpingfinished")
 		emit_signal("lerpFinished")
 		set_process(false)
 	else:

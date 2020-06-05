@@ -1,17 +1,38 @@
 extends Node2D
 signal processTurn
-signal updateDebug
 var playerTurn = true;
 onready var Lerp = $Lerp
-
-
 func _ready():
-	$TileMap._level_generation(10,10)
+	set_process_input(true)
+	$Player.position = ($TileMap.map_to_world($TileMap.level_generation(200,200)))
 
+func _input(event):
+	if Input.is_action_pressed("ui_accept"):
+		$Player.position = ($TileMap.map_to_world($TileMap.level_generation(200,200)))
+	if Input.is_action_pressed("debug_camera_left"):
+		$debugCam.position.x -= 50
+	if Input.is_action_pressed("debug_camera_right"):
+		$debugCam.position.x += 50
+	if Input.is_action_pressed("debug_camera_up"):
+		$debugCam.position.y -= 50
+	if Input.is_action_pressed("debug_camera_down"):
+		$debugCam.position.y += 50
+	if Input.is_action_pressed("debug_camera_zoom_in"):
+		$debugCam.zoom -= Vector2(1,1)
+	if Input.is_action_pressed("debug_camera_zoom_out"):
+		$debugCam.zoom += Vector2(1,1)
+	if Input.is_action_pressed("debug_camera_activate"):
+		if($debugCam.current):
+			$debugCam.current = false
+			$Player/PlayerCamera.current = true
+		else:
+			print("CAM")
+			$Player/PlayerCamera.current = false
+			$debugCam.current = true
 #	Takes in a position(Vec2) and checks if it is a valid tile to move to
 func _tile_Check(position):
 	var check = ($TileMap.get_cellv($TileMap.world_to_map(position)) == 0 or $TileMap.get_cellv($TileMap.world_to_map(position)) == 1)
-	emit_signal("updateDebug",position,$TileMap.get_cellv($TileMap.world_to_map(position)))
+	
 	return check
 	
 	#Basic Movement Handling
@@ -48,3 +69,7 @@ func _on_Player_playerMove(direction,position):
 #   directly to target location if valid movement.
 func _on_Lerp_lerpFinished():
 	playerTurn = true
+
+
+func _on_TileMap_debug():
+	pass # Replace with function body.
