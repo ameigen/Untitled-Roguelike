@@ -1,7 +1,9 @@
 Look at rewriting general logic with a 'tween'
 
 
-Check move space
+Check move(direction)
+	send signal to tilemap(direction,playerPos)
+	return signal (moveable)
 	if(movable)
 		player turn = false
 		move
