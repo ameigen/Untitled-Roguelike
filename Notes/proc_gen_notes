@@ -1,3 +1,18 @@
+Look at rewriting general logic with a 'tween'
+
+
+Check move space
+	if(movable)
+		player turn = false
+		move
+	else
+		return
+	
+while(!player_turn)
+	enemy turn
+	itterate through enemies array
+	at end player_turn = true
+
 
 change Room class to only intake one value (type)
 	Handle room generation inside    |

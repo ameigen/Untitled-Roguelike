@@ -1,11 +1,22 @@
-item class:
+Player class:
+	inventory[Item]
+	health = int
+	mana = int
+	class = string
+	weapon = Weapon
+	armor = Armor
+	accessory = accessory
+	
+
+
+Item class:
 	**Stuff**
 	
-	weapon class:
+	Weapon class:
 		inherit item
 		**Stuff**
 		
-	armor class:
+	Armor class:
 	
 		inherit item
 		**Stuff**
@@ -14,6 +25,6 @@ item class:
 			inherit armor
 			**Stuff**
 			
-	misc class:
+	Misc class:
 		inherit item
 		**Stuff**
