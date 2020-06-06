@@ -1,0 +1,19 @@
+item class:
+	**Stuff**
+	
+	weapon class:
+		inherit item
+		**Stuff**
+		
+	armor class:
+	
+		inherit item
+		**Stuff**
+		
+		accessory class:
+			inherit armor
+			**Stuff**
+			
+	misc class:
+		inherit item
+		**Stuff**

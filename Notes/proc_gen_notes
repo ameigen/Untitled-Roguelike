@@ -1,0 +1,45 @@
+
+change Room class to only intake one value (type)
+	Handle room generation inside    |
+									 |
+levelGen:							 |
+	Fill level with walls			 |
+									 |
+	# x = maxtypes of room #		 |
+	room = makeRoom(randi(0,x)): <---|
+			if(0 *square/rectangle*):	 
+				....				
+			if(1 *round*):
+				....
+			if(2 *oblong*):
+				....
+		
+		return room
+	
+	intersectCheck(room):
+		type = room.type
+	
+		if(0 *square/rectangle*):
+			....
+			return false
+		if(1 *round*):
+			....
+			return false
+		if(2 *oblong*):
+			....
+			return false
+			
+		return true
+		
+	drawRoom(room):
+		if(0 *square/rectangle*):	 
+			....				
+		if(1 *round*):
+			....
+		if(2 *oblong*):
+			....
+			
+		if(intersectCheck(room):
+			drawRoom(room)
+			rooms.push_back(room)
+		
