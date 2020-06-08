@@ -1,0 +1,99 @@
+Game:
+	main menu handler:
+		state machine(menuChoice)
+			start game *1
+			unlockables *2 
+			leaderboards *3
+			options		*4
+			exit		*5
+			credits *6
+	
+		*start game
+			choose class, name, and starting perks
+			pass this to character constructor
+				new.character(class, job, name, perkflag)
+			generate level:
+				size of the level will be randomly generated and filled with wall tiles
+				call to roomGenerator()
+					randomly choose room type from (square, rectangle, circle, etc)
+					this number along with random dimensions are used to instantiate
+					a new.room(dimensions(x,y), center, type)
+					the new room is then sent to
+						intersectionCheck(room):
+							reads type of room and checks
+							via roomtypes specific inters-
+							algorithm
+							if(intersection):
+								return pass
+							if(!intersection):
+								push to array
+			
+				itterate across rooms inside of level (via center)
+					randomly spawn enemies (until either max spawn
+					count or room 'enemiesInside' number is met)
+						Algorithm:
+							for i in rooms[]
+								rand(spawn chance table)
+									randomly pick a point inside
+									room bounds
+									check this point against enemies
+									array to ensure two are not spawned
+									on same tile
+				
+				Interior Game Loop:
+					start on player turn:
+					while(playerturn)
+						choices:
+							move(or attack if into enemy)
+							wait(pass end turn signal)
+							use item(passes turn)
+							[opening inventory is not an action, same with equipping/unequipping]
+							
+							move:
+								check destination square (player pos+ tile size converted to map coords)
+									if(!wall || !n/a)
+										check for enemy
+											for i in enemies[]
+												if(i.seen)
+													if(enemy.position == player move position)
+														player.attack(enemy)
+										else move
+										pass endturnsignal
+										!playerturn
+							wait:
+								pass endturnsignal
+								!playerturn
+							
+							useitem:
+							
+							
+					for i in enemies:
+						if(seen):
+							calculate move, play move animation
+						else:
+							calculate move
+						calculate attacks, etc
+							
+		
+		*unlockables
+			classes
+			starting perks
+			pallette swaps 
+			
+		*leaderboards
+			show scores based on:
+				World
+				Regions
+				Friends
+				Personal
+				
+		*options
+			sound settings
+			visual settings
+			
+		*exit
+			exit game
+			
+		*credits
+			play credit roll (if viewed x times unlock easter egg)
+	
