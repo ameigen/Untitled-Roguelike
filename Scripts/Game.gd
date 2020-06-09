@@ -8,11 +8,11 @@ var maxRooms = (mapSize.x+mapSize.y)/2
 
 func _ready():
 	set_process_input(true)
-	$Player.position = ($TileMap.map_to_world($TileMap.level_generation(mapSize,maxRooms)))
+	$Player.position = ($TileMap.map_to_world($TileMap.generateLevel(mapSize,maxRooms)))
 
 func _input(event):
 	if Input.is_action_pressed("ui_accept"):
-		$Player.position = ($TileMap.map_to_world($TileMap.level_generation(mapSize,maxRooms)))
+		$Player.position = ($TileMap.map_to_world($TileMap.generateLevel(mapSize,maxRooms)))
 	if Input.is_action_pressed("debug_camera_left"):
 		$debugCam.position.x -= 50
 	if Input.is_action_pressed("debug_camera_right"):
@@ -63,6 +63,7 @@ func playerMovementHandler(direction, position):
 			if(_tile_Check(tempPos)):
 				playerTurn = false
 				Lerp.lerpToSpot(tempPos, $Player)
+		print($TileMap.world_to_map(tempPos))
 
 #	Calculates tile in direction passed, 32units from player
 func _on_Player_playerMove(direction,position):

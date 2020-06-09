@@ -3,13 +3,15 @@ extends Node
 class_name Room
 
 var dimensions = Vector2(0,0)
-var roomCent = Vector2(0,0)
+var center = Vector2(0,0)
 var doors = 0
+var enemies = 0
+var type
 
-func _init(x,y,center):
-	dimensions.x = x
-	dimensions.y = y
-	roomCent = center
+func _init(typ,size,cent):
+	type = typ
+	dimensions = size
+	center = cent
 	
 	
 
