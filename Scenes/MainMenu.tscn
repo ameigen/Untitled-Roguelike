@@ -1,0 +1,89 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Fonts/untitled_roguelike_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scenes/MainMenu.gd" type="Script" id=2]
+
+[node name="MainMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.215686, 0.215686, 0.215686, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+margin_left = 180.264
+margin_top = 47.8425
+margin_right = 864.264
+margin_bottom = 98.8425
+custom_fonts/font = ExtResource( 1 )
+text = "UNTITLED ROGUELIKE"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayButton" type="Button" parent="."]
+margin_left = 431.576
+margin_top = 128.42
+margin_right = 595.576
+margin_bottom = 185.42
+custom_fonts/font = ExtResource( 1 )
+text = "PLAY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnlockButton" type="Button" parent="PlayButton"]
+margin_left = -128.051
+margin_top = 86.3151
+margin_right = 301.949
+margin_bottom = 143.315
+custom_fonts/font = ExtResource( 1 )
+text = "UNLOCKABLES"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LeaderButton" type="Button" parent="PlayButton/UnlockButton"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -226.209
+margin_top = 88.4203
+margin_right = 241.791
+margin_bottom = 145.42
+custom_fonts/font = ExtResource( 1 )
+text = "LEADERBOARDS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionButton" type="Button" parent="PlayButton/UnlockButton/LeaderButton"]
+margin_left = 81.0519
+margin_top = 81.0521
+margin_right = 359.052
+margin_bottom = 138.052
+custom_fonts/font = ExtResource( 1 )
+text = "OPTIONS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CreditButton" type="Button" parent="PlayButton/UnlockButton/LeaderButton/OptionButton"]
+margin_left = -69.8426
+margin_top = 83.1573
+margin_right = 360.157
+margin_bottom = 140.157
+custom_fonts/font = ExtResource( 1 )
+text = "CREDITS"
+__meta__ = {
+"_edit_use_anchors_": false
+}

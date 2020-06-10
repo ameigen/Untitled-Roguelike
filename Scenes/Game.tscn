@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Art/knight.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/debugtilemap.tres" type="TileSet" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Scripts/Lerp.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/Debug.gd" type="Script" id=9]
 [ext_resource path="res://Scenes/DebugOut.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Health.gd" type="Script" id=11]
+[ext_resource path="res://Scenes/Name.gd" type="Script" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0, 0, 0, 1 )
@@ -32,10 +34,75 @@ script = ExtResource( 8 )
 lerpDelay = 400
 lerpStep = 0.125
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 6 )
 
-[node name="DebugOut" type="Label" parent="CanvasLayer"]
+[node name="HUD" type="ColorRect" parent="UI"]
+visible = false
+anchor_right = 1.0
+margin_bottom = 39.0
+color = Color( 0.172549, 0.172549, 0.172549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SubHUD" type="ColorRect" parent="UI/HUD"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 527.0
+margin_bottom = 561.0
+color = Color( 0.172549, 0.172549, 0.172549, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="ColorRect" parent="UI/HUD/SubHUD"]
+margin_left = 864.0
+margin_top = -558.0
+margin_right = 1016.0
+margin_bottom = -534.0
+color = Color( 0.803922, 0.027451, 0.027451, 1 )
+script = ExtResource( 11 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthAmt" type="Label" parent="UI/HUD/SubHUD/Health"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 5 )
+text = "/"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health" type="Label" parent="UI/HUD/SubHUD/Health"]
+margin_left = -40.0
+margin_top = 8.0
+margin_right = -6.0
+margin_bottom = 31.0
+custom_fonts/font = ExtResource( 5 )
+text = "HP"
+uppercase = true
+
+[node name="Name" type="Label" parent="UI/HUD/SubHUD"]
+margin_left = 8.0
+margin_top = -558.0
+margin_right = 48.0
+margin_bottom = -535.0
+custom_fonts/font = ExtResource( 5 )
+text = "Name: "
+uppercase = true
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugOut" type="Label" parent="UI/HUD"]
+visible = false
 margin_left = 4.03595
 margin_top = 3.67865
 margin_right = 34.0359
@@ -44,6 +111,16 @@ custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 5 )
 align = 1
 script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/HUD"]
+margin_left = 871.455
+margin_top = 572.923
+margin_right = 1011.46
+margin_bottom = 592.923
+text = "MENU"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -66,15 +143,19 @@ centered = false
 shape = SubResource( 2 )
 
 [node name="PlayerCamera" type="Camera2D" parent="Player"]
-current = true
 drag_margin_left = 0.0
 drag_margin_top = 0.0
 drag_margin_right = 0.0
 drag_margin_bottom = 0.0
-[connection signal="debugOut" from="Debug" to="CanvasLayer/DebugOut" method="_on_Debug_debugOut"]
+[connection signal="takeDamage" from="." to="UI/HUD/SubHUD/Health" method="_on_Game_takeDamage"]
+[connection signal="debugOut" from="Debug" to="UI/HUD/DebugOut" method="_on_Debug_debugOut"]
 [connection signal="getID" from="Debug" to="TileMap" method="_on_Debug_getID"]
 [connection signal="lerpFinished" from="Lerp" to="." method="_on_Lerp_lerpFinished"]
+[connection signal="hudUpdate" from="UI" to="UI/HUD/SubHUD/Health" method="_on_UI_hudUpdate"]
+[connection signal="hudUpdate" from="UI" to="UI/HUD/SubHUD/Name" method="_on_UI_hudUpdate"]
+[connection signal="pressed" from="UI/HUD/Button" to="UI" method="_on_Button_pressed"]
 [connection signal="tileMapID" from="TileMap" to="Debug" method="_on_TileMap_tileMapID"]
 [connection signal="tilemapDebug" from="TileMap" to="Debug" method="_on_TileMap_tilemapDebug"]
+[connection signal="passPlayerInfo" from="Player" to="UI" method="_on_Player_passPlayerInfo"]
 [connection signal="playerMove" from="Player" to="Debug" method="_on_Player_playerMove"]
 [connection signal="playerMove" from="Player" to="." method="_on_Player_playerMove"]

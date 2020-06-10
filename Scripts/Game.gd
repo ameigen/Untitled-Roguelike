@@ -1,15 +1,19 @@
 extends Node2D
+
 signal processTurn
+signal takeDamage
+
 var playerTurn = true;
+var mainMenu = preload("res://Scenes//MainMenu.tscn")
 onready var Lerp = $Lerp
 #temp vals for map gen
 export var mapSize = Vector2(100,100)
 var maxRooms = (mapSize.x+mapSize.y)/2
 
 func _ready():
-	set_process_input(true)
-	$Player.position = ($TileMap.map_to_world($TileMap.generateLevel(mapSize,maxRooms)))
-
+	var main = mainMenu.instance()
+	add_child(main)
+#Debug Stuff
 func _input(event):
 	if Input.is_action_pressed("ui_accept"):
 		$Player.position = ($TileMap.map_to_world($TileMap.generateLevel(mapSize,maxRooms)))
@@ -30,15 +34,13 @@ func _input(event):
 			$debugCam.current = false
 			$Player/PlayerCamera.current = true
 		else:
-			print("CAM")
 			$Player/PlayerCamera.current = false
 			$debugCam.current = true
 #	Takes in a position(Vec2) and checks if it is a valid tile to move to
 func _tile_Check(position):
 	var check = ($TileMap.get_cellv($TileMap.world_to_map(position)) == 0 or $TileMap.get_cellv($TileMap.world_to_map(position)) == 1)
-	
 	return check
-	
+
 	#Basic Movement Handling
 func playerMovementHandler(direction, position):
 	if(playerTurn):
@@ -75,6 +77,3 @@ func _on_Player_playerMove(direction,position):
 func _on_Lerp_lerpFinished():
 	playerTurn = true
 
-
-func _on_TileMap_debug():
-	pass # Replace with function body.

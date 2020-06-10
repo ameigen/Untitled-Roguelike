@@ -1,3 +1,5 @@
+Migrate Signals to Global
+
 Game:
 	main menu handler:
 		state machine(menuChoice)

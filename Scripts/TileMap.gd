@@ -43,8 +43,9 @@ func buildWalls(dimensions):
 func createRoom(dimensions):
 		var spawnPoint
 		var roomDims
-		var roomSize
+# warning-ignore:unused_variable
 		var tempX
+# warning-ignore:unused_variable
 		var tempY
 		var center
 		var type = rng.randi_range(1,2) #Temporary until we add other room types
@@ -78,14 +79,14 @@ func intersectCheck(roomToCheck):
 	var checkStart = Vector2(roomCenter.x-floor(roomDimensions.x/2),roomCenter.y-floor(roomDimensions.y/2))-Vector2(3,3)
 	#print ("CheckStart: ", str(checkStart))
 	
-	if(self.get_cellv(roomCenter) == -1):
+	if(get_cellv(roomCenter) == -1):
 		return false
 		
 	if(roomToCheck.type == 1 or roomToCheck.type == 2):	 #Square or Rectangle
 		for x in roomDimensions.x + 4:
 			for y in roomDimensions.y + 4:
 				var adjustVec = Vector2(x,y)
-				var checkCell = self.get_cellv(checkStart + adjustVec)
+				var checkCell = get_cellv(checkStart + adjustVec)
 				if(checkCell == -1 or checkCell == 1):
 					#print("INTERSECTION")
 					return false
@@ -117,4 +118,4 @@ func randomVector2(randomGen,minRange,maxRange):
 	return randVecOut
 	
 func _on_Debug_getID(position):
-	emit_signal("tileMapID",self.get_cellv(self.world_to_map(position)))
+	emit_signal("tileMapID",get_cellv(world_to_map(position)))
