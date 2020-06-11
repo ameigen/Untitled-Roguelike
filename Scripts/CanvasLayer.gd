@@ -10,7 +10,7 @@ func _ready():
 	
 func _process(delta):
 	pass
-	
+
 func _on_Button_pressed():
 	menu = subMenu.instance()
 	add_child(menu)

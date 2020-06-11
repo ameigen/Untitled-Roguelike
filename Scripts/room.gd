@@ -13,11 +13,17 @@ func _init(typ,size,cent):
 	dimensions = size
 	center = cent
 	
-	
-
 func _ready():
 	pass
 
+func getTopLeft():
+	return (center - Vector2(floor(int(dimensions.x/2)),floor(int(dimensions.y/2))))
+	
+func getBottomRight():
+	return (center + Vector2(floor(int(dimensions.x/2)),floor(int(dimensions.y/2))))
+
+func increaseEnemies():
+	enemies += 1
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

@@ -3,27 +3,35 @@ extends TileMap
 #sets back bounds for level *UNUSED CURRENTLY*
 signal tilemapDebug
 signal tileMapID
-var rng = RandomNumberGenerator.new()
+var enemyScene = preload("res://Scenes//Enemy.tscn")
 var rooms = []
+var enemies = []
 var checkDist
 var startTime
 
 func _ready():
-	rng.randomize()
+	pass
 
 #Basic call to generate a  single x*y room. Use for basis of procedural algorithm
 
-func generateLevel(mapSize,maxRooms):
+func generateLevel(mapSize,maxRooms,rng):
 	var dimensions = mapSize
 	var roomItterations = 10000
 	var roomCount = rng.randi_range(maxRooms / 5, maxRooms)
 	#Check OS.time to track time to generate level
 	startTime = OS.get_ticks_msec()
 	#Clear array of rooms on level generation
+	if(enemies.size() > 0):
+		for i in enemies:
+			i.killFree()
 	rooms.clear()
+	enemies.clear()
+	print("BUILDING WALLS")
 	buildWalls(dimensions)
+	print("FINISHED BUILDING WALLS")
+	print("BUILDING ROOMS")
 	while(roomCount > 0):
-		var tempRoom = createRoom(dimensions)
+		var tempRoom = createRoom(dimensions,rng)
 		if(intersectCheck(tempRoom)):
 			rooms.push_back(tempRoom)
 			drawRoom(tempRoom)
@@ -32,15 +40,20 @@ func generateLevel(mapSize,maxRooms):
 			roomItterations -= 1
 		if(roomItterations == 0):
 			roomCount -= 1
+	print("FINISHED BUILDING ROOMS")
 	emit_signal("tilemapDebug",str(OS.get_ticks_msec() - startTime))
-	return rooms[rng.randi_range(0,rooms.size()-1)].center
+	print("SPAWNING ENEMIES")
+	for i in rooms:
+		spawnEnemies(i,rng)
+	print("FINISHED SPAWNING ENEMIES")
+	return map_to_world(rooms[rng.randi_range(0,rooms.size()-1)].center)
 
 func buildWalls(dimensions):
 	for x in dimensions.x:
 		for y in dimensions.y:
 			self.set_cell(x,y,2)
 
-func createRoom(dimensions):
+func createRoom(dimensions,rng):
 		var spawnPoint
 		var roomDims
 # warning-ignore:unused_variable
@@ -116,6 +129,34 @@ func randomVector2(randomGen,minRange,maxRange):
 	val2 = randomGen.randi_range(minRange,randomGen.randi_range(minRange,maxRange))
 	randVecOut = Vector2(val1,val2)
 	return randVecOut
+
+func spawnEnemies(room,rng):
+	if(rng.randi_range(0,100) >= 20):	
+		while(room.enemies < 5):
+			var canSpawn = true
+			var spawnPoint
+			var spawnChance = rng.randi_range(0,100)
+			var minPoint = room.getTopLeft()
+			var maxPoint = room.getBottomRight()
+			spawnPoint = map_to_world(Vector2(rng.randi_range(minPoint.x,maxPoint.x),rng.randi_range(minPoint.y,maxPoint.y)))
+			if(spawnChance > 35):
+				for i in enemies:
+					if(spawnPoint == world_to_map(i.getPosition())):
+						canSpawn = false
+				if(canSpawn):
+					var tempEnemy = enemyScene.instance()
+					add_child(tempEnemy)
+					#print("MAKING ENEMY" + str(tempEnemy))
+					tempEnemy.createEnemy(rng,spawnPoint)
+					enemies.push_back(tempEnemy)
+					room.increaseEnemies()
+			room.increaseEnemies()
+			pass
+	else:
+		pass
+
+func getEnemies():
+	return enemies
 	
 func _on_Debug_getID(position):
 	emit_signal("tileMapID",get_cellv(world_to_map(position)))

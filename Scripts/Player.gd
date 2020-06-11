@@ -2,7 +2,7 @@ extends Area2D
 signal playerMove
 signal passPlayerInfo
 
-var isTurn = false
+var isTurn = true
 var pName = ""
 var stats = {"STR": 0,"DEX": 0,"CON": 0,"INT": 0,"WIS": 0,"CHA": 0, "LCK": 0}
 var playerInfo = {
@@ -14,7 +14,18 @@ enum DIRECTIONS {LEFT, RIGHT, UP, DOWN}
 
 func _ready():
 	pass
-
+#	If input event, send direction and position as signal
+func _unhandled_key_input(event):
+	if(isTurn):
+		if Input.is_action_pressed("ui_left"): 
+			emit_signal("playerMove",DIRECTIONS.LEFT,position)
+		if Input.is_action_pressed("ui_right"):
+			emit_signal("playerMove",DIRECTIONS.RIGHT,position)
+		if Input.is_action_pressed("ui_up"):
+			emit_signal("playerMove",DIRECTIONS.UP,position)
+		if Input.is_action_pressed("ui_down"):
+			emit_signal("playerMove",DIRECTIONS.DOWN,position)
+		
 func createCharacter(name,jobTemp):
 	playerInfo.Name = name
 	if(jobTemp == 0):
@@ -28,15 +39,8 @@ func createCharacter(name,jobTemp):
 	emit_signal("passPlayerInfo",playerInfo)
 	set_process_input(true)
 
-#	If input event, send direction and position as signal
-func _input(event):
-	if(isTurn):
-		if Input.is_action_pressed("ui_left"): 
-			emit_signal("playerMove",DIRECTIONS.LEFT,position)
-		if Input.is_action_pressed("ui_right"):
-			emit_signal("playerMove",DIRECTIONS.RIGHT,position)
-		if Input.is_action_pressed("ui_up"):
-			emit_signal("playerMove",DIRECTIONS.UP,position)
-		if Input.is_action_pressed("ui_down"):
-			emit_signal("playerMove",DIRECTIONS.DOWN,position)
-		
+func getInfo():
+	return playerInfo
+	
+func getAttacked(attacker):
+	pass

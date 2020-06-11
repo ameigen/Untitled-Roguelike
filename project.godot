@@ -29,6 +29,13 @@ config/icon="res://External/icon.png"
 
 GlobalSignals="*res://GlobalSignals.gd"
 
+[display]
+
+window/size/borderless=true
+window/size/fullscreen=true
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
 [input]
 
 debug_camera_left={
@@ -69,5 +76,6 @@ debug_camera_activate={
 
 [rendering]
 
+quality/2d/use_pixel_snap=true
 environment/default_clear_color=Color( 0.0823529, 0.0823529, 0.0823529, 1 )
 environment/default_environment="res://default_env.tres"

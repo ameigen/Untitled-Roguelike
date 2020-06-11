@@ -12,7 +12,7 @@ func _ready():
 func on_receive_playerInfo(pInfo):
 	print("test")
 	menuName.text += pInfo.Name
-	menuHealth.text += str(pInfo.Health)
+	menuHealth.text += str(pInfo.CurrentHealth)
 	menuWeight.text += str(pInfo.Weight)
 	for i in pInfo.Stats:
 		menuStats.text += (i + ': ' + str(pInfo.Stats[i]) + '\n')

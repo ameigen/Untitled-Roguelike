@@ -1,6 +1,9 @@
 [gd_resource type="DynamicFont" load_steps=2 format=2]
 
-[ext_resource path="res://Fonts/Untitled Roguelike Mid-Space.ttf" type="DynamicFontData" id=1]
+[sub_resource type="DynamicFontData" id=1]
+font_path = "res://Fonts/Untitled Roguelike Mid-Space.ttf"
 
 [resource]
-font_data = ExtResource( 1 )
+size = 14
+outline_color = Color( 0.172549, 0.168627, 0.168627, 1 )
+font_data = SubResource( 1 )
