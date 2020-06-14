@@ -98,4 +98,6 @@ text = "CREDITS"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
