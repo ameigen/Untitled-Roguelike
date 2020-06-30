@@ -10,7 +10,6 @@ var enemies = []
 var checkDist
 var startTime
 var graph = AStar2D.new()
-
 func _ready():
 	pass
 
@@ -19,7 +18,7 @@ func _ready():
 func generateLevel(mapSize,maxRooms,rng):
 	var dimensions = mapSize
 	var roomItterations = 2000
-	var roomCount = 20
+	var roomCount = 100
 	graph.clear()
 	#rng.randi_range(maxRooms / 5, maxRooms)
 	#Check OS.time to track time to generate level
@@ -55,67 +54,52 @@ func generateLevel(mapSize,maxRooms,rng):
 	print("FINISHED SPAWNING ENEMIES")
 	var test = map_to_world(rooms[rng.randi_range(0,rooms.size()-1)].center)
 	set_cellv(world_to_map(test-Vector2(1,1)),0)
-	makeGraph()
+	carveHalls(makeGraph())
+	print(maxRooms)
 	return test
 
 func makeGraph():
-	for tile in get_used_cells():
-		graph.add_point(graph.get_available_point_id(),tile)
-	for tile in get_used_cells():	
-		var id = graph.get_closest_point(tile)
-		for i in range(3):
-			var target
-			if(i==0):
-				target = tile + Vector2(-1,0)
-			if(i==1):
-				target = tile + Vector2(0,1)
-			if(i==2):
-				target = tile + Vector2(1,0)
-			if(i==3):
-				target = tile + Vector2(0,-1)
-			var targetID = graph.get_closest_point(target)
-			if tile == target or not graph.has_point(targetID):
-				continue
-			elif(id == targetID):
-				continue
-			graph.connect_points(id,targetID,true)	
-	print(graph.get_point_count())
-#	for i in rooms:
-#		roomCents.push_back(graph.get_closest_point(i.center))
 	for i in rooms:
-		roomCents.push_back(graph.get_closest_point(i.center))
-	print(roomCents)
-	for j in range(roomCents.size()):
-		if(j+2 > roomCents.size()):
-			continue
-		if(graph.get_id_path(roomCents[j],roomCents[j+1])):
-			print("Building path")
-			var setDoor = true
-			var path = graph.get_id_path(roomCents[j],roomCents[j+1])
-			for i in range(path.size()):
-				var cur = path[i]
-				var previous = path[i]
-				if(i > 0):
-					previous = path[i-1]
-				print(previous)
-				print(get_cellv(graph.get_point_position(previous)))
-				if(get_cellv(graph.get_point_position(cur)) == 2):
-					print("WALL")
-#					if(setDoor):
-#						set_cellv(graph.get_point_position(cur),0)
-#						setDoor = !setDoor
-#						continue
-					set_cellv(graph.get_point_position(cur),1)
-					continue
-				if(get_cellv(graph.get_point_position(cur)) == 1):
-					if(get_cellv(graph.get_point_position(previous)) == 2):
-						print("FLOOR")
-						break
-					continue
-#					if(!setDoor):
-#						set_cellv(graph.get_point_position(previous),0)
-#						setDoor = !setDoor
-						
+		roomCents.push_front(i.center)
+	graph.add_point(graph.get_available_point_id(),roomCents.pop_front())
+	while roomCents:
+		var minDist = INF
+		var minP = null
+		var p = null
+		for p1 in graph.get_points():
+			p1 = graph.get_point_position(p1)
+			for p2 in roomCents:
+				if p1.distance_to(p2) < minDist:
+					minDist = p1.distance_to(p2)
+					minP = p2
+					p = p1
+		var n = graph.get_available_point_id()
+		graph.add_point(n,minP)
+		graph.connect_points(graph.get_closest_point(p),n)		
+		roomCents.erase(minP)
+	print(graph.get_points())
+	return graph
+
+#func _draw():
+#	if graph:
+#		for p in graph.get_points():
+#			for c in graph.get_point_connections(p):		
+#				var pp = map_to_world(graph.get_point_position(p))
+#				var cp = map_to_world(graph.get_point_position(c))
+#				draw_line(Vector2(pp.x, pp.y),
+#						  Vector2(cp.x, cp.y),
+#						  Color(0, 1, 0, 1), 15, true)
+
+func carveHalls(mst):
+	var points = mst.get_points()
+	var count = 0
+	for i in points.size():
+		#print(points.size())
+		#print(count)
+		if(count+1 < points.size()):
+			print(mst.get_point_path(points[count],points[count+1]))
+			print(mst.get_point_path(points[count],points[count+1]).size())
+		count += 1
 
 func buildWalls(dimensions):
 	for x in dimensions.x:

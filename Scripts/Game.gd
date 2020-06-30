@@ -40,7 +40,7 @@ func _input(event):
 		if Input.is_action_pressed("debug_camera_zoom_out"):
 			$debugCam.zoom += Vector2(1,1)
 		if Input.is_action_pressed("debug_camera_activate"):
-			$CanvasModulate.visible = !$CanvasModulate.visible
+			#$CanvasModulate.visible = !$CanvasModulate.visible
 			if($debugCam.current):
 				$debugCam.current = false
 				$Player/PlayerCamera.current = true
@@ -108,7 +108,7 @@ func createMainMenu():
 
 func menuPlayButton():
 	rng.randomize()
-	mapSize = Vector2(rng.randi_range(100,200),rng.randi_range(100,200))
+	mapSize = Vector2(rng.randi_range(100,1000),rng.randi_range(100,1000))
 	maxRooms = (mapSize.x+mapSize.y/2)
 	print(mapSize)
 	Player.createCharacter("Alexander",0)

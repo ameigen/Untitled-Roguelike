@@ -68,6 +68,9 @@ script = ExtResource( 9 )
 [node name="debugCam" type="Camera2D" parent="."]
 zoom = Vector2( 15, 15 )
 
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color( 0, 0, 0, 0 )
+
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 6 )
 
@@ -227,11 +230,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
-show_behind_parent = true
-light_mask = 2
-color = Color( 1, 1, 1, 0 )
-
 [node name="Dungeon" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
@@ -278,8 +276,8 @@ script = ExtResource( 8 )
 [connection signal="takeDamage" from="." to="UI/HUD/SubHUD/Health" method="_on_Game_takeDamage"]
 [connection signal="debugOut" from="Debug" to="UI/HUD/DebugOut" method="_on_Debug_debugOut"]
 [connection signal="getID" from="Debug" to="Dungeon" method="_on_Debug_getID"]
-[connection signal="hudUpdate" from="UI" to="UI/HUD/SubHUD/Name" method="_on_UI_hudUpdate"]
 [connection signal="hudUpdate" from="UI" to="UI/HUD/SubHUD/Health" method="_on_UI_hudUpdate"]
+[connection signal="hudUpdate" from="UI" to="UI/HUD/SubHUD/Name" method="_on_UI_hudUpdate"]
 [connection signal="pressed" from="UI/HUD/SubHUD/Button" to="UI" method="_on_Button_pressed"]
 [connection signal="mouse_entered" from="UI/HUD/SubHUD/CombatLog" to="UI/HUD/SubHUD/CombatLog" method="_on_CombatLog_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HUD/SubHUD/CombatLog" to="UI/HUD/SubHUD/CombatLog" method="_on_CombatLog_mouse_exited"]
