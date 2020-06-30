@@ -97,8 +97,11 @@ func carveHalls(mst):
 		#print(points.size())
 		#print(count)
 		if(count+1 < points.size()):
-			print(mst.get_point_path(points[count],points[count+1]))
-			print(mst.get_point_path(points[count],points[count+1]).size())
+			#Find Path Between Rooms
+			var path = mst.get_point_path(points[count],points[count+1])
+			print("Generalized path: " + str(path));
+			#Cull path to two points. Ensures we do not revist rooms if paths exist.
+			print("Culled path: " + str(path[0]) + ' ' + str(path[path.size()-1]));
 		count += 1
 
 func buildWalls(dimensions):
