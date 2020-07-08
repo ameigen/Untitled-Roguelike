@@ -108,8 +108,8 @@ func createMainMenu():
 
 func menuPlayButton():
 	rng.randomize()
-	mapSize = Vector2(rng.randi_range(100,1000),rng.randi_range(100,1000))
-	maxRooms = (mapSize.x+mapSize.y/2)
+	mapSize = Vector2(rng.randi_range(100,200),rng.randi_range(100,200))
+	maxRooms = (mapSize.x+mapSize.y/5)
 	print(mapSize)
 	Player.createCharacter("Alexander",0)
 	Player.position = Dungeon.generateLevel(mapSize,maxRooms,rng)

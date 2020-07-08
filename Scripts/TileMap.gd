@@ -18,7 +18,7 @@ func _ready():
 func generateLevel(mapSize,maxRooms,rng):
 	var dimensions = mapSize
 	var roomItterations = 2000
-	var roomCount = 100
+	var roomCount = (dimensions.x + dimensions.y)/5
 	graph.clear()
 	#rng.randi_range(maxRooms / 5, maxRooms)
 	#Check OS.time to track time to generate level
@@ -98,10 +98,31 @@ func carveHalls(mst):
 		#print(count)
 		if(count+1 < points.size()):
 			#Find Path Between Rooms
-			var path = mst.get_point_path(points[count],points[count+1])
-			print("Generalized path: " + str(path));
+			var fullPath = mst.get_point_path(points[count],points[count+1])
+			print("Generalized path: " + str(fullPath));
 			#Cull path to two points. Ensures we do not revist rooms if paths exist.
-			print("Culled path: " + str(path[0]) + ' ' + str(path[path.size()-1]));
+			print("Culled path: " + str(fullPath[0]) + ' ' + str(fullPath[fullPath.size()-1]));
+			var start = fullPath[0]
+			var end = fullPath[fullPath.size()-1]
+			var hall = Vector2()
+			hall = -(start - end);
+			if(hall.x < 0):
+				for x in -hall.x:
+					set_cell(start.x-x,start.y,1)
+					print("X " + str(start.x+x) + " " + str(start.y))
+			if(hall.y < 0):
+				for y in -hall.y:
+					set_cell(start.x+hall.x,start.y-y,1)
+					print("Y " + str(start.x+hall.x) + " " + str(start.y+y))
+			if(hall.x > 0 or hall.x == +0 or hall.x == -0):
+				for x in hall.x:
+					set_cell(start.x+x,start.y,1)
+					print("X " + str(start.x+x) + " " + str(start.y))				
+			if(hall.y > 0 or hall.y == +0 or hall.y == -0):
+				for y in hall.y:
+					set_cell(start.x+hall.x,start.y+y,1)
+					print("Y " + str(start.x+hall.x) + " " + str(start.y+y))
+			print(hall);
 		count += 1
 
 func buildWalls(dimensions):
